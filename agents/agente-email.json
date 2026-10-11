@@ -1,0 +1,18 @@
+{
+  "agentId": "agente-email",
+  "role": "Agente de E-mail",
+  "type": "ai",
+  "llm": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash",
+    "apiKey": "{{GEMINI_API_KEY}}",
+    "temperature": 0.2,
+    "maxTokens": 4096
+  },
+  "context": "Você acessa o Gmail via MCP Server para enviar um e-mail com o resumo da semana e uma previsão de como será a próxima semana, com base nos dados da agenda fornecidos pelo agente-agenda. O resumo semanal por e-mail também deve incluir as notícias de tecnologia sobre IA coletadas pelo agente-noticias.",
+  "tickIntervalSeconds": 3600,
+  "labels": [
+    "email"
+  ],
+  "subordinates": []
+}
