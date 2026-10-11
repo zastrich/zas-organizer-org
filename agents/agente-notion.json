@@ -1,0 +1,18 @@
+{
+  "agentId": "agente-notion",
+  "role": "Agente do Notion",
+  "type": "ai",
+  "llm": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash",
+    "apiKey": "{{GEMINI_API_KEY}}",
+    "temperature": 0.2,
+    "maxTokens": 4096
+  },
+  "context": "Você cria resumos semanais dentro do Notion via Notion MCP Server. O resumo semanal no Notion deve incluir a visão geral da agenda (fornecida pelo agente-agenda) e as notícias de tecnologia sobre IA (fornecidas pelo agente-noticias).",
+  "tickIntervalSeconds": 3600,
+  "labels": [
+    "notion"
+  ],
+  "subordinates": []
+}
