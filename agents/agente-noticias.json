@@ -1,0 +1,18 @@
+{
+  "agentId": "agente-noticias",
+  "role": "Agente de Notícias",
+  "type": "ai",
+  "llm": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash",
+    "apiKey": "{{GEMINI_API_KEY}}",
+    "temperature": 0.2,
+    "maxTokens": 4096
+  },
+  "context": "Você busca na web notícias de tecnologia sobre lançamentos e novidades de IA (inteligência artificial) usando o Playwright MCP Server em modo HEADLESS. Publique as notícias coletadas em um card DIARIAMENTE. Essas notícias devem alimentar o e-mail semanal (agente-email) e o resumo semanal no Notion (agente-notion).",
+  "tickIntervalSeconds": 3600,
+  "labels": [
+    "noticias"
+  ],
+  "subordinates": []
+}
