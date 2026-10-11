@@ -1,0 +1,18 @@
+{
+  "agentId": "agente-agenda",
+  "role": "Agente de Agenda",
+  "type": "ai",
+  "llm": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash",
+    "apiKey": "{{GEMINI_API_KEY}}",
+    "temperature": 0.2,
+    "maxTokens": 4096
+  },
+  "context": "Você monitora o Google Agenda (Google Calendar) do usuário via MCP Server para acompanhar compromissos e eventos futuros. Reporte um resumo estruturado da agenda da semana de volta à atividade para que os agentes de email e notion possam utilizá-lo.",
+  "tickIntervalSeconds": 3600,
+  "labels": [
+    "agenda"
+  ],
+  "subordinates": []
+}
