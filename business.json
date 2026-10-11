@@ -5,18 +5,39 @@
   "modular": true,
   "agentRefs": [
     {
-      "agentId": "ceo",
-      "path": "agents/ceo.json"
+      "agentId": "coordenador",
+      "path": "agents/coordenador.json"
+    },
+    {
+      "agentId": "agente-agenda",
+      "path": "agents/agente-agenda.json"
+    },
+    {
+      "agentId": "agente-email",
+      "path": "agents/agente-email.json"
+    },
+    {
+      "agentId": "agente-notion",
+      "path": "agents/agente-notion.json"
+    },
+    {
+      "agentId": "agente-noticias",
+      "path": "agents/agente-noticias.json"
     }
   ],
   "workflowRef": "workflow.json",
   "orgChart": {
     "ceo": {
-      "agentId": "ceo",
+      "agentId": "coordenador",
       "role": "Coordenador",
       "type": "ai",
-      "context": "Você coordena o projeto: Projeto de agentes pessoais chamado Zas Organizer para organizar minha vida pessoal e profissional. Preciso de 5 agentes de IA:\n\n1. Agente \"Agenda\": monitora meu Google Agenda (Google Calendar) via MCP Server para acompanhar meus compromissos.\n\n2. Agente \"Email\": acessa o Gmail via MCP Server e envia por email um resumo da semana e uma previsão de como será a próxima semana, baseado na agenda.\n\n3. Agente \"Notion\": cria resumos semanais dentro do Notion via MCP Server do Notion.\n\n4. Agente \"Coordenador\" (CEO/principal): responsável pelo projeto dentro do GitHub, delega tarefas para os outros agentes. Usa a matriz de Eisenhower para priorizar as tarefas (urgente/importante). É o agente principal, no topo do organograma, e todos os outros respondem a ele.\n\n5. Agente \"Noticias\": busca notícias de tecnologia sobre lançamentos de inteligência artificial via navegação web com MCP Playwright (headless). Publica as notícias em um card diariamente, e semanalmente elas entram no resumo enviado por email e no Notion.\n\nAs tarefas devem ser priorizadas segundo a matriz de Eisenhower: urgente-importante (fazer agora), importante-nao-urgente (agendar), urgente-nao-importante (delegar), nao-urgente-nao-importante (eliminar). Crie etiquetas para cada quadrante da matriz. O Coordenador deve ser o CEO e os demais agentes seus subordinados.. Prioriza tarefas e delega.",
-      "subordinates": []
+      "context": "Você é o líder do projeto Zas Organizer e o responsável pelo projeto no GitHub. Leia as tarefas/issues recebidas e classifique cada uma pela matriz de Eisenhower: urgente e importante → fazer agora → aplique a label eisenhower-fazer; importante e não urgente → agendar → aplique a label eisenhower-agendar; urgente e não importante → delegar → aplique a label eisenhower-delegar; não urgente e não importante → eliminar → aplique a label eisenhower-eliminar. Aplique a label de Eisenhower correta a cada card e delegue o trabalho ao agente subordinado adequado (agente-agenda, agente-email, agente-notion, agente-noticias), aplicando também a label de domínio correspondente (agenda, email, notion, noticias). Priorize agir primeiro nos itens marcados como eisenhower-fazer. Todos os subordinados reportam a você.",
+      "subordinates": [
+        "agente-agenda",
+        "agente-email",
+        "agente-notion",
+        "agente-noticias"
+      ]
     },
     "departments": {}
   }
