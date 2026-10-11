@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "stages": [
+    {
+      "name": "Backlog",
+      "description": "Itens aguardando priorização",
+      "input": "Contexto de entrada para a etapa \"Backlog\": leia o card, comentários e issues relacionadas.",
+      "output": "Saída esperada na etapa \"Backlog\": atualize o card e mova para a próxima etapa quando concluir."
+    },
+    {
+      "name": "Em Progresso",
+      "description": "Sendo trabalhado",
+      "input": "Contexto de entrada para a etapa \"Em Progresso\": leia o card, comentários e issues relacionadas.",
+      "output": "Saída esperada na etapa \"Em Progresso\": atualize o card e mova para a próxima etapa quando concluir."
+    },
+    {
+      "name": "Revisão",
+      "description": "Aguardando revisão",
+      "input": "Contexto de entrada para a etapa \"Revisão\": leia o card, comentários e issues relacionadas.",
+      "output": "Saída esperada na etapa \"Revisão\": atualize o card e mova para a próxima etapa quando concluir."
+    },
+    {
+      "name": "Ação Manual",
+      "description": "Requer ação humana",
+      "isManualAction": true,
+      "input": "Contexto de entrada para a etapa \"Ação Manual\": leia o card, comentários e issues relacionadas.",
+      "output": "Saída esperada na etapa \"Ação Manual\": atualize o card e mova para a próxima etapa quando concluir."
+    },
+    {
+      "name": "Concluído",
+      "description": "Finalizado",
+      "isDone": true,
+      "input": "Contexto de entrada para a etapa \"Concluído\": leia o card, comentários e issues relacionadas.",
+      "output": "Saída esperada na etapa \"Concluído\": atualize o card e mova para a próxima etapa quando concluir."
+    }
+  ],
+  "completionPatterns": [
+    "[TAREFA_CONCLUÍDA]",
+    "[TAREFA_CONCLUIDA]",
+    "[TASK_COMPLETED]"
+  ]
+}
