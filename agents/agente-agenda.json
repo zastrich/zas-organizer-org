@@ -4,15 +4,133 @@
   "type": "ai",
   "llm": {
     "provider": "gemini",
-    "model": "gemini-2.5-flash",
+    "model": "gemini-3.8-flash",
     "apiKey": "{{GEMINI_API_KEY}}",
     "temperature": 0.2,
     "maxTokens": 4096
   },
-  "context": "Você monitora o Google Agenda (Google Calendar) do usuário via MCP Server para acompanhar compromissos e eventos futuros. Reporte um resumo estruturado da agenda da semana de volta à atividade para que os agentes de email e notion possam utilizá-lo.",
+  "context": "Você monitora o Google Agenda (Google Calendar) do usuário usando ferramentas CLI first-party (extensão local, não MCP de terceiros).\nFerramentas disponíveis:\n- calendar_list_events: lista os próximos eventos do Google Agenda (retorna JSON {id,summary,start,end}). Use para levantar os compromissos da semana e montar um resumo estruturado da agenda.\n- calendar_create_event: cria um evento no Google Agenda (summary, start, end obrigatórios; description e calendar opcionais, default 'primary'). Use quando precisar agendar algo.\nFluxo: liste os eventos da semana com calendar_list_events, consolide-os num resumo estruturado e reporte-o de volta à atividade para que os agentes de e-mail e Notion possam utilizá-lo.",
   "tickIntervalSeconds": 3600,
   "labels": [
     "agenda"
   ],
-  "subordinates": []
+  "subordinates": [],
+  "cliTools": [
+    {
+      "id": "calendar_list_events",
+      "name": "Listar eventos do Google Agenda",
+      "description": "Lista os próximos eventos do Google Agenda do usuário. Retorna um array JSON de {id,summary,start,end}. Use para montar o resumo da agenda da semana.",
+      "command": "node",
+      "args": [
+        {
+          "literal": "tsx"
+        },
+        {
+          "literal": "extensions/google/google-cli.mts"
+        },
+        {
+          "literal": "list-events"
+        },
+        {
+          "literal": "--max"
+        },
+        {
+          "param": "max",
+          "required": false,
+          "description": "Máximo de eventos (default 10)"
+        },
+        {
+          "literal": "--from"
+        },
+        {
+          "param": "from",
+          "required": false,
+          "description": "Data/hora inicial ISO (default agora)"
+        },
+        {
+          "literal": "--to"
+        },
+        {
+          "param": "to",
+          "required": false,
+          "description": "Data/hora final ISO (opcional)"
+        },
+        {
+          "literal": "--calendar"
+        },
+        {
+          "param": "calendar",
+          "required": false,
+          "description": "ID do calendário (default primary)"
+        }
+      ],
+      "timeoutMs": 60000,
+      "env": {
+        "GOOGLE_SA_JSON": "{{GOOGLE_OAUTH_CREDENTIALS}}",
+        "GOOGLE_IMPERSONATE_SUBJECT": "{{GOOGLE_IMPERSONATE_SUBJECT}}"
+      }
+    },
+    {
+      "id": "calendar_create_event",
+      "name": "Criar evento no Google Agenda",
+      "description": "Cria um evento no Google Agenda do usuário. Retorna o evento criado {id,summary,start,end,htmlLink}.",
+      "command": "node",
+      "args": [
+        {
+          "literal": "tsx"
+        },
+        {
+          "literal": "extensions/google/google-cli.mts"
+        },
+        {
+          "literal": "create-event"
+        },
+        {
+          "literal": "--summary"
+        },
+        {
+          "param": "summary",
+          "required": true,
+          "description": "Título do evento"
+        },
+        {
+          "literal": "--start"
+        },
+        {
+          "param": "start",
+          "required": true,
+          "description": "Início ISO (ex: 2025-01-20T09:00:00-03:00)"
+        },
+        {
+          "literal": "--end"
+        },
+        {
+          "param": "end",
+          "required": true,
+          "description": "Fim ISO (ex: 2025-01-20T10:00:00-03:00)"
+        },
+        {
+          "literal": "--description"
+        },
+        {
+          "param": "description",
+          "required": false,
+          "description": "Descrição do evento (opcional)"
+        },
+        {
+          "literal": "--calendar"
+        },
+        {
+          "param": "calendar",
+          "required": false,
+          "description": "ID do calendário (default primary)"
+        }
+      ],
+      "timeoutMs": 60000,
+      "env": {
+        "GOOGLE_SA_JSON": "{{GOOGLE_OAUTH_CREDENTIALS}}",
+        "GOOGLE_IMPERSONATE_SUBJECT": "{{GOOGLE_IMPERSONATE_SUBJECT}}"
+      }
+    }
+  ]
 }
