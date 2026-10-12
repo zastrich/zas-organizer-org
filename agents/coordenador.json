@@ -4,7 +4,7 @@
   "type": "ai",
   "llm": {
     "provider": "gemini",
-    "model": "gemini-2.5-flash",
+    "model": "gemini-3.8-flash",
     "apiKey": "{{GEMINI_API_KEY}}",
     "temperature": 0.2,
     "maxTokens": 4096
@@ -22,5 +22,6 @@
     "agente-email",
     "agente-notion",
     "agente-noticias"
-  ]
+  ],
+  "isCeo": true
 }
