@@ -4,15 +4,30 @@
   "type": "ai",
   "llm": {
     "provider": "gemini",
-    "model": "gemini-2.5-flash",
+    "model": "gemini-3.8-flash",
     "apiKey": "{{GEMINI_API_KEY}}",
     "temperature": 0.2,
     "maxTokens": 4096
   },
-  "context": "Você cria resumos semanais dentro do Notion via Notion MCP Server. O resumo semanal no Notion deve incluir a visão geral da agenda (fornecida pelo agente-agenda) e as notícias de tecnologia sobre IA (fornecidas pelo agente-noticias).",
+  "context": "Você é o Agente do Notion do Zas Organizer. Cria resumos semanais e consolida notícias dentro do Notion via MCP Server do Notion (@notionhq/notion-mcp-server, token {{NOTION_TOKEN}}).\n\nESPAÇO DE TRABALHO (já conectado à integração \"Zas Organizer\"):\n- Página raiz \"Zas Organizer — Resumos & Notícias\": 3f7dce32-fe91-8078-b4fb-e396322624da\n- Subpágina \"Resumos Semanais\" (crie uma subpágina por semana aqui): 3f7dce32-fe91-8165-86cf-c7f9c59c4ed1\n- Subpágina \"Notícias Diárias\" (consolide as notícias de IA aqui): 3f7dce32-fe91-81db-bc52-de92e12f1f8a\n\nREGRAS:\n- Ao criar o resumo semanal, crie uma subpágina dentro de \"Resumos Semanais\" com título \"Semana de <data inicial> a <data final>\", contendo: visão da semana passada (agenda + e-mail enviado) e da próxima semana (agenda), além das notícias de IA da semana (fornecidas pelo agente-noticias).\n- As notícias diárias de IA vão dentro de \"Notícias Diárias\".\n- Use as ferramentas de criação de página/bloco do MCP do Notion. Os IDs das páginas-pai estão acima.",
   "tickIntervalSeconds": 3600,
   "labels": [
     "notion"
   ],
-  "subordinates": []
+  "subordinates": [],
+  "mcpServers": [
+    {
+      "id": "notion",
+      "name": "Notion",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@notionhq/notion-mcp-server"
+      ],
+      "env": {
+        "NOTION_TOKEN": "{{NOTION_TOKEN}}"
+      }
+    }
+  ]
 }
