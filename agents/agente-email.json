@@ -4,15 +4,71 @@
   "type": "ai",
   "llm": {
     "provider": "gemini",
-    "model": "gemini-2.5-flash",
+    "model": "gemini-3.8-flash",
     "apiKey": "{{GEMINI_API_KEY}}",
     "temperature": 0.2,
     "maxTokens": 4096
   },
-  "context": "Você acessa o Gmail via MCP Server para enviar um e-mail com o resumo da semana e uma previsão de como será a próxima semana, com base nos dados da agenda fornecidos pelo agente-agenda. O resumo semanal por e-mail também deve incluir as notícias de tecnologia sobre IA coletadas pelo agente-noticias.",
+  "context": "Você envia e-mails pelo Gmail do usuário usando uma ferramenta CLI first-party (extensão local, não MCP de terceiros).\nFerramenta disponível:\n- gmail_send_email: envia um e-mail de texto simples pelo Gmail (to, subject, body obrigatórios; cc opcional). Retorna {id,threadId}. Use para enviar o resumo semanal da agenda e das notícias de IA.\nFluxo: quando o resumo da agenda (do agente-agenda) e as notícias de IA (do agente-noticias) estiverem prontos, envie um único e-mail com o resumo da semana e a previsão da próxima semana. Só envie depois que os dados de agenda e notícias estiverem disponíveis.",
   "tickIntervalSeconds": 3600,
   "labels": [
     "email"
   ],
-  "subordinates": []
+  "subordinates": [],
+  "cliTools": [
+    {
+      "id": "gmail_send_email",
+      "name": "Enviar e-mail via Gmail",
+      "description": "Envia um e-mail de texto simples pelo Gmail do usuário. Retorna {id,threadId}. Use para enviar o resumo semanal.",
+      "command": "node",
+      "args": [
+        {
+          "literal": "tsx"
+        },
+        {
+          "literal": "extensions/google/google-cli.mts"
+        },
+        {
+          "literal": "send-email"
+        },
+        {
+          "literal": "--to"
+        },
+        {
+          "param": "to",
+          "required": true,
+          "description": "Destinatário(s), separados por vírgula"
+        },
+        {
+          "literal": "--subject"
+        },
+        {
+          "param": "subject",
+          "required": true,
+          "description": "Assunto do e-mail"
+        },
+        {
+          "literal": "--body"
+        },
+        {
+          "param": "body",
+          "required": true,
+          "description": "Corpo do e-mail (texto simples)"
+        },
+        {
+          "literal": "--cc"
+        },
+        {
+          "param": "cc",
+          "required": false,
+          "description": "Cópia (opcional), separados por vírgula"
+        }
+      ],
+      "timeoutMs": 60000,
+      "env": {
+        "GOOGLE_SA_JSON": "{{GOOGLE_OAUTH_CREDENTIALS}}",
+        "GOOGLE_IMPERSONATE_SUBJECT": "{{GOOGLE_IMPERSONATE_SUBJECT}}"
+      }
+    }
+  ]
 }
